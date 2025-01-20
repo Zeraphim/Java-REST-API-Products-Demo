@@ -27,10 +27,10 @@ https://start.spring.io/
     - **User Name** - `root`
     - **Password** - `password`
 3. Once logged in you can try accessing the data.
-    - **Checking data in Product Table** - `SELECT * FROM PRODUCT`
-    - **Updating a product** - `UPDATE PRODUCT SET PRICE = 2000 WHERE ID = 1`
-    - **Deleting a product** - `DELETE FROM PRODUCT WHERE ID = 1`
-    - **Inserting a product** - `INSERT INTO PRODUCT (ID, NAME, DESCRIPTION, PRICE) VALUES (3, 'Alien', 'High-end gaming laptop', 100000.00)`
+    - **Checking data in Product Table** - `SELECT * FROM SCORE_CARD`
+    - **Updating a product** - `UPDATE SCORE_CARD SET SCORE = 75 WHERE ID = 1`
+    - **Deleting a product** - `DELETE FROM SCORE_CARD WHERE ID = 1`
+    - **Inserting a product** - `INSERT INTO SCORE_CARD (ID, NAME, DESCRIPTION, SCORE) VALUES (2, 'Backwards Compatibility', 'Backwards Compatibility', 75)`
 
 ## Endpoints
 
