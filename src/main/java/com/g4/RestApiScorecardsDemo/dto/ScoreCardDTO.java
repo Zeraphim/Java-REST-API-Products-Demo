@@ -7,8 +7,7 @@ public class ScoreCardDTO {
     private String description;
     private int score;
 
-    // Constructors, getters, and setters
-
+    // Constructors
     public ScoreCardDTO() {}
 
     public ScoreCardDTO(Long id, String name, String description, int score) {
@@ -19,7 +18,6 @@ public class ScoreCardDTO {
     }
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
