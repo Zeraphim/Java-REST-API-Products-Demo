@@ -1,0 +1,93 @@
+# REST API Scorecards Demo
+
+**Reference Article:** <br>
+https://medium.com/@pratik.941/building-rest-api-using-spring-boot-a-comprehensive-guide-3e9b6d7a8951
+
+## Setting up
+Create a new Spring Boot project using Spring Initializer. Add the following dependencies:
+
+https://start.spring.io/
+
+![Springboot-Init](Assets/springboot-init.png)
+
+## How to Use
+
+1. Clone the repository
+2. Open the project in IntelliJ
+3. In `src/main/java` folder you may choose `com.g4.RestApiScorecardsDemo` package,
+4. Open the `RestApiScorecardsDemoApplication.java` file and run the application
+5. Access <http://localhost:8080> in the browser
+6. You may try experimenting with the endpoints below in Postman.
+
+## H2 Console
+
+1. Open another tab and navigate to this url <http://localhost:8080/h2-console>
+2. Enter the login credentials found in `src/main/resources/application.properties` file.
+    - **JDBC URL** - `jdbc:h2:mem:testdb`
+    - **User Name** - `root`
+    - **Password** - `password`
+3. Once logged in you can try accessing the data.
+    - **Checking data in Product Table** - `SELECT * FROM PRODUCT`
+    - **Updating a product** - `UPDATE PRODUCT SET PRICE = 2000 WHERE ID = 1`
+    - **Deleting a product** - `DELETE FROM PRODUCT WHERE ID = 1`
+    - **Inserting a product** - `INSERT INTO PRODUCT (ID, NAME, DESCRIPTION, PRICE) VALUES (3, 'Alien', 'High-end gaming laptop', 100000.00)`
+
+## Endpoints
+
+### `com.g4.RestApiScorecardsDemo` package
+
+#### 1. Get All Scorecards
+
+`GET` - http://localhost:8080/api/scorecards
+
+Sample Response
+
+```json
+[
+   {
+      "id": 1,
+      "name": "Best Practices",
+      "description": "Best Practices",
+      "score": 99
+   },
+   {
+      "id": 2,
+      "name": "Backwards Compatibility",
+      "description": "Backwards Compatibility",
+      "score": 75
+   }
+]
+```
+
+#### 2. Get Scorecard by ID
+
+`GET` - http://localhost:8080/api/scorecards/1
+
+Sample Response
+```json
+{
+   "id": 1,
+   "name": "Best Practices",
+   "description": "Best Practices",
+   "score": 99
+}
+```
+
+#### 3. Create new Scorecard
+
+`POST` - http://localhost:8080/api/scorecards
+
+`Body` -
+
+```json
+{
+   "id": 2,
+   "name": "Backwards Compatibility",
+   "description": "Backwards Compatibility",
+   "score": 75
+}
+```
+
+#### 4. Delete Scorecard by ID
+
+`DELETE` - http://localhost:8080/api/scorecards/1
