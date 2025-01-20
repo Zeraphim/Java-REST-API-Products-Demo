@@ -84,7 +84,6 @@ Sample Response
 
 ```json
 {
-   "id": 2,
    "name": "Backwards Compatibility",
    "description": "Backwards Compatibility",
    "score": 75
