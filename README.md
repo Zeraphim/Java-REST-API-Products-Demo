@@ -37,11 +37,12 @@ https://start.spring.io/
 
 ## Endpoints
 
-### `com.g4.RestApiScorecardsDemo` package
+### `V1` Endpoints
+- Simple REST API, No Exception handling and Asynchronous processing.
 
 #### 1. Get All Scorecards
 
-`GET` - http://localhost:8080/api/scorecards
+`GET` - http://localhost:8080/api/v1/scorecards
 
 Sample Response
 
@@ -64,7 +65,7 @@ Sample Response
 
 #### 2. Get Scorecard by ID
 
-`GET` - http://localhost:8080/api/scorecards/1
+`GET` - http://localhost:8080/api/v1/scorecards/1
 
 Sample Response
 ```json
@@ -78,7 +79,7 @@ Sample Response
 
 #### 3. Create new Scorecard
 
-`POST` - http://localhost:8080/api/scorecards
+`POST` - http://localhost:8080/api/v1/scorecards
 
 `Body` -
 
@@ -92,4 +93,64 @@ Sample Response
 
 #### 4. Delete Scorecard by ID
 
-`DELETE` - http://localhost:8080/api/scorecards/1
+`DELETE` - http://localhost:8080/api/v1/scorecards/1
+
+
+
+### `V2` Endpoints
+- Implemented Exception handling
+
+#### 1. Get All Scorecards
+
+`GET` - http://localhost:8080/api/v2/scorecards
+
+Sample Response
+
+```json
+[
+   {
+      "id": 1,
+      "name": "Best Practices",
+      "description": "Best Practices",
+      "score": 99
+   },
+   {
+      "id": 2,
+      "name": "Backwards Compatibility",
+      "description": "Backwards Compatibility",
+      "score": 75
+   }
+]
+```
+
+#### 2. Get Scorecard by ID
+
+`GET` - http://localhost:8080/api/v2/scorecards/1
+
+Sample Response
+```json
+{
+   "id": 1,
+   "name": "Best Practices",
+   "description": "Best Practices",
+   "score": 99
+}
+```
+
+#### 3. Create new Scorecard
+
+`POST` - http://localhost:8080/api/v2/scorecards
+
+`Body` -
+
+```json
+{
+   "name": "Backwards Compatibility",
+   "description": "Backwards Compatibility",
+   "score": 75
+}
+```
+
+#### 4. Delete Scorecard by ID
+
+`DELETE` - http://localhost:8080/api/v1/scorecards/1
