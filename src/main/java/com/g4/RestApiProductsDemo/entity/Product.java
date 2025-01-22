@@ -1,4 +1,4 @@
-package com.g4.RestApiScorecardsDemo.entity;
+package com.g4.RestApiProductsDemo.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class ScoreCard {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,18 +14,19 @@ public class ScoreCard {
     private Long id;
     private String name;
     private String description;
-    private int score;
+    private double price;
 
     // Constructors
-    public ScoreCard() {}
+    public Product() {}
 
-    public ScoreCard(String name, String description, int score) {
+    public Product(String name, String description, double price) {
         this.name = name;
         this.description = description;
-        this.score = score;
+        this.price = price;
     }
 
     // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -50,11 +51,11 @@ public class ScoreCard {
         this.description = description;
     }
 
-    public int getScore() {
-        return score;
+    public double getPrice() {
+        return price;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

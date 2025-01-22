@@ -1,4 +1,4 @@
-# REST API Scorecards Demo
+# REST API Products Demo
 HI FROM TRIXI
 **NOTES:**
 Before committing `git pull`
@@ -17,8 +17,8 @@ https://start.spring.io/
 
 1. Clone the repository
 2. Open the project in IntelliJ
-3. In `src/main/java` folder you may choose `com.g4.RestApiScorecardsDemo` package,
-4. Open the `RestApiScorecardsDemoApplication.java` file and run the application
+3. In `src/main/java` folder you may choose `com.g4.RestApiProductsDemo` package,
+4. Open the `RestApiProductsDemoApplication.java` file and run the application
 5. Access <http://localhost:8080> in the browser
 6. You may try experimenting with the endpoints below in Postman.
 
@@ -30,19 +30,19 @@ https://start.spring.io/
     - **User Name** - `root`
     - **Password** - `password`
 3. Once logged in you can try accessing the data.
-    - **Checking data in Product Table** - `SELECT * FROM SCORE_CARD`
-    - **Updating a product** - `UPDATE SCORE_CARD SET SCORE = 75 WHERE ID = 1`
-    - **Deleting a product** - `DELETE FROM SCORE_CARD WHERE ID = 1`
-    - **Inserting a product** - `INSERT INTO SCORE_CARD (ID, NAME, DESCRIPTION, SCORE) VALUES (2, 'Backwards Compatibility', 'Backwards Compatibility', 75)`
+    - **Checking data in Product Table** - `SELECT * FROM PRODUCT`
+    - **Updating a product** - `UPDATE PRODUCT SET PRICE = 56000 WHERE ID = 1`
+    - **Deleting a product** - `DELETE FROM PRODUCT WHERE ID = 1`
+    - **Inserting a product** - `INSERT INTO PRODUCT (ID, NAME, DESCRIPTION, PRICE) VALUES (2, 'Alinenware', 'Gaming Laptop', 75000)`
 
 ## Endpoints
 
 ### `V1` Endpoints
 - Simple REST API, No Exception handling and Asynchronous processing.
 
-#### 1. Get All Scorecards
+#### 1. Get All Products
 
-`GET` - http://localhost:8080/api/v1/scorecards
+`GET` - http://localhost:8080/api/v1/product
 
 Sample Response
 
@@ -50,59 +50,59 @@ Sample Response
 [
    {
       "id": 1,
-      "name": "Best Practices",
-      "description": "Best Practices",
-      "score": 99
+      "name": "Macbook Pro",
+      "description": "For soydevs",
+      "price": 100000.0
    },
    {
       "id": 2,
-      "name": "Backwards Compatibility",
-      "description": "Backwards Compatibility",
-      "score": 75
+      "name": "Alienware",
+      "description": "Gaming Laptop",
+      "price": 75000.0
    }
 ]
 ```
 
-#### 2. Get Scorecard by ID
+#### 2. Get Product by ID
 
-`GET` - http://localhost:8080/api/v1/scorecards/1
+`GET` - http://localhost:8080/api/v1/product/1
 
 Sample Response
 ```json
 {
    "id": 1,
-   "name": "Best Practices",
-   "description": "Best Practices",
-   "score": 99
+   "name": "Macbook Pro",
+   "description": "For soydevs",
+   "price": 100000.0
 }
 ```
 
-#### 3. Create new Scorecard
+#### 3. Create new Product
 
-`POST` - http://localhost:8080/api/v1/scorecards
+`POST` - http://localhost:8080/api/v1/product
 
 `Body` -
 
 ```json
 {
-   "name": "Backwards Compatibility",
-   "description": "Backwards Compatibility",
-   "score": 75
+   "name": "Alienware",
+   "description": "Gaming Laptop",
+   "price": 75000
 }
 ```
 
-#### 4. Delete Scorecard by ID
+#### 4. Delete Product by ID
 
-`DELETE` - http://localhost:8080/api/v1/scorecards/1
+`DELETE` - http://localhost:8080/api/v1/product/1
 
 
 
 ### `V2` Endpoints
 - Implemented Exception handling
 
-#### 1. Get All Scorecards
+#### 1. Get All Products
 
-`GET` - http://localhost:8080/api/v2/scorecards
+`GET` - http://localhost:8080/api/v2/product
 
 Sample Response
 
@@ -110,47 +110,47 @@ Sample Response
 [
    {
       "id": 1,
-      "name": "Best Practices",
-      "description": "Best Practices",
-      "score": 99
+      "name": "Macbook Pro",
+      "description": "For soydevs",
+      "price": 100000.0
    },
    {
       "id": 2,
-      "name": "Backwards Compatibility",
-      "description": "Backwards Compatibility",
-      "score": 75
+      "name": "Alienware",
+      "description": "Gaming Laptop",
+      "price": 75000.0
    }
 ]
 ```
 
-#### 2. Get Scorecard by ID
+#### 2. Get Product by ID
 
-`GET` - http://localhost:8080/api/v2/scorecards/1
+`GET` - http://localhost:8080/api/v2/product/1
 
 Sample Response
 ```json
 {
    "id": 1,
-   "name": "Best Practices",
-   "description": "Best Practices",
-   "score": 99
+   "name": "Macbook Pro",
+   "description": "For soydevs",
+   "price": 100000.0
 }
 ```
 
-#### 3. Create new Scorecard
+#### 3. Create new Product
 
-`POST` - http://localhost:8080/api/v2/scorecards
+`POST` - http://localhost:8080/api/v2/product
 
 `Body` -
 
 ```json
 {
-   "name": "Backwards Compatibility",
-   "description": "Backwards Compatibility",
-   "score": 75
+   "name": "Alienware",
+   "description": "Gaming Laptop",
+   "price": 75000
 }
 ```
 
-#### 4. Delete Scorecard by ID
+#### 4. Delete Product by ID
 
-`DELETE` - http://localhost:8080/api/v1/scorecards/1
+`DELETE` - http://localhost:8080/api/v1/product/1

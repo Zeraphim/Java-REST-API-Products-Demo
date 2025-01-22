@@ -1,23 +1,24 @@
-package com.g4.RestApiScorecardsDemo.dto;
+package com.g4.RestApiProductsDemo.dto;
 
-public class ScoreCardDTO {
+public class ProductDTO {
 
     private Long id;
     private String name;
     private String description;
-    private int score;
+    private double price;
 
     // Constructors
-    public ScoreCardDTO() {}
+    public ProductDTO() {}
 
-    public ScoreCardDTO(Long id, String name, String description, int score) {
+    public ProductDTO(Long id, String name, String description, double price) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.score = score;
+        this.price = price;
     }
 
     // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -42,11 +43,11 @@ public class ScoreCardDTO {
         this.description = description;
     }
 
-    public int getScore() {
-        return score;
+    public double getPrice() {
+        return price;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
