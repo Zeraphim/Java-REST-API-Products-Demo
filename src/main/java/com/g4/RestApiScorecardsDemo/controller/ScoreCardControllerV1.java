@@ -31,6 +31,7 @@ public class ScoreCardControllerV1 {
     }
 
     // Create a new product
+    // PRONE TO SQL INJECTION
     @PostMapping
     public ResponseEntity<ScoreCardDTO> createScorecard(@RequestBody ScoreCardDTO ScoreCardDTO) {
         ScoreCardDTO createdScoreCard = scorecardService.createScorecard(ScoreCardDTO);
