@@ -10,8 +10,8 @@ import com.g4.RestApiScorecardsDemo.service.ScoreCardService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/scorecards")
-public class ScoreCardController {
+@RequestMapping("/api/v2/scorecards")
+public class ScoreCardControllerV2 {
 
     @Autowired
     private ScoreCardService scorecardService;
