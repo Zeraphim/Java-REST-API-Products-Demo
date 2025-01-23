@@ -35,6 +35,12 @@ https://start.spring.io/
     - **Deleting a product** - `DELETE FROM PRODUCT WHERE ID = 1`
     - **Inserting a product** - `INSERT INTO PRODUCT (ID, NAME, DESCRIPTION, PRICE) VALUES (2, 'Alinenware', 'Gaming Laptop', 75000)`
 
+4. H2 SQL
+INSERT INTO products (id, name, description, price)
+VALUES
+(1, 'Macbook Pro', 'For soydevs', 100000.0),
+(2, 'Alienware', 'Gaming Laptop', 75000.0);
+
 ## Endpoints
 
 ### `V1` Endpoints
