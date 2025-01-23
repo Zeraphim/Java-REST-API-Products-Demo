@@ -17,12 +17,18 @@ public class ProductService {
 
     // Convert Product entity to ProductDTO
     private ProductDTO mapToDTO(Product product) {
-        return new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice());
+        return new ProductDTO(product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice());
     }
 
     // Convert ProductDTO to Product entity
-    private Product mapToEntity(ProductDTO ProjectDTO) {
-        return new Product(ProjectDTO.getName(), ProjectDTO.getDescription(), ProjectDTO.getPrice());
+    private Product mapToEntity(ProductDTO productDTO) {
+        return new Product(productDTO.getName(),
+                productDTO.getDescription(),
+                productDTO.getPrice(),
+                null);
     }
 
     // Get all product

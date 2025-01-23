@@ -1,5 +1,6 @@
 package com.g4.RestApiProductsDemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,22 +11,22 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
     private String name;
     private String description;
     private double price;
+    private String internalCode; // New field that should not be exposed
 
-    // Constructors
+    // Constructors, Getters, Setters
+
     public Product() {}
 
-    public Product(String name, String description, double price) {
+    public Product(String name, String description, double price, String internalCode) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.internalCode = internalCode;
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -57,5 +58,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getInternalCode() {
+        return internalCode;
+    }
+
+    public void setInternalCode(String internalCode) {
+        this.internalCode = internalCode;
     }
 }
