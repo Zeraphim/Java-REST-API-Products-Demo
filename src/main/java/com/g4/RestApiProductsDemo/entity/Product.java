@@ -15,14 +15,14 @@ public class Product {
 
     private String name;
     private String description;
-    private double price;
+    private Double price;
     private String internalCode; // New field that should not be exposed
 
     // Constructors, Getters, Setters
 
     public Product() {}
 
-    public Product(String name, String description, double price, String internalCode) {
+    public Product(String name, String description, Double price, String internalCode) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -53,11 +53,11 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

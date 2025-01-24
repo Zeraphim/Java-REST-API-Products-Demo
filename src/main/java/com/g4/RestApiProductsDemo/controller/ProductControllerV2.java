@@ -23,12 +23,14 @@ public class ProductControllerV2 {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // Get all products
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAllProduct() {
         List<ProductDTO> products = productService.getAllProduct();
         return ResponseEntity.ok(products);
     }
 
+    // Get a product by ID
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         ProductDTO product = productService.getProductById(id);
@@ -38,6 +40,7 @@ public class ProductControllerV2 {
         return ResponseEntity.ok(product);
     }
 
+    // Create a new product
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ObjectNode productNode) {
         validateProductNode(productNode);
@@ -46,16 +49,16 @@ public class ProductControllerV2 {
         return ResponseEntity.ok(createdProduct);
     }
 
+    // Update a product by ID
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO ProductDTO, @RequestBody ObjectNode productNode) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ObjectNode productNode) {
         validateProductNode(productNode);
-        ProductDTO updatedProduct = productService.updateProduct(id, ProductDTO);
-        if (updatedProduct == null) {
-            throw new ResourceNotFoundException("Product not found with id " + id);
-        }
+        ProductDTO productDTO = objectMapper.convertValue(productNode, ProductDTO.class);
+        ProductDTO updatedProduct = productService.updateProduct(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
 
+    // Delete a product by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
@@ -69,7 +72,7 @@ public class ProductControllerV2 {
         if (productNode.size() > 3) {
             throw new InvalidProductException("Product must not have additional attributes");
         }
-        
+
         if (productNode.size() < 3) {
             throw new InvalidProductException("Request lacks the required parameters.");
         }
