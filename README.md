@@ -11,7 +11,7 @@ Create a new Spring Boot project using Spring Initializer. Add the following dep
 
 https://start.spring.io/
 
-![Springboot-Init](Assets/springboot-init.png)
+![Springboot-Init](Assets/springboot-setup.png)
 
 ## How to Use
 
