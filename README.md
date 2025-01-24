@@ -11,7 +11,7 @@ Create a new Spring Boot project using Spring Initializer. Add the following dep
 
 https://start.spring.io/
 
-![Springboot-Init](Assets/springboot-init.png)
+![Springboot-Init](Assets/springboot-setup.png)
 
 ## How to Use
 
@@ -98,7 +98,21 @@ Sample Response
 }
 ```
 
-#### 4. Delete Product by ID
+#### 4. Update Product
+
+`PUT` - http://localhost:8080/api/v1/product/1
+
+`Body` -
+
+```json
+{
+  "name": "Macbook",
+  "description": "It just works.",
+  "price": 75000
+}
+```
+
+#### 5. Delete Product by ID
 
 `DELETE` - http://localhost:8080/api/v1/product/1
 
@@ -107,7 +121,7 @@ Sample Response
 ### `V2` Endpoints
 - Implemented Exception handling
 
-#### 1. Get All Products
+#### 1. [V2] Get All Products (With Exception Handling)
 
 `GET` - http://localhost:8080/api/v2/product
 
@@ -130,23 +144,22 @@ Sample Response
 ]
 ```
 
-#### 2. Get Product by ID
+#### 2. [V2] Get Product by ID (With Exception Handling)
 
-`GET` - http://localhost:8080/api/v2/product/1
+`GET` - http://localhost:8080/api/v2/product/2
+
+**NOTE:** Assuming that Product with ID 2 does not exist.
 
 Sample Response
 ```json
-{
-   "id": 1,
-   "name": "Macbook Pro",
-   "description": "For soydevs",
-   "price": 100000.0
-}
+Product not found
 ```
 
-#### 3. Create new Product
+#### 3. [V2] Create new Product (With Exception Handling)
 
 `POST` - http://localhost:8080/api/v2/product
+
+**NOTE:** Assuming that the request body exceeds the required parameters (3)
 
 `Body` -
 
@@ -154,10 +167,67 @@ Sample Response
 {
    "name": "Alienware",
    "description": "Gaming Laptop",
-   "price": 75000
+   "price": 75000,
+   "hehe": 1
 }
 ```
 
-#### 4. Delete Product by ID
+Response
+```json
+Product must not have additional attributes
+```
 
-`DELETE` - http://localhost:8080/api/v1/product/1
+**NOTE:** Assuming that the request body does not contain at least "name", "description", and "price".
+
+`Body` -
+
+```json
+{
+   "name": "Alienware",
+   "description": "Gaming Laptop",
+   "hehe": 75000
+}
+```
+
+```json
+Product must have name, description, and price
+```
+
+
+#### 4. [V2] Update Product (With Exception Handling)
+
+`PUT` - http://localhost:8080/api/v2/product/1
+
+**NOTE:** Assuming that the product does not exist
+
+```json
+Product not found
+```
+
+**NOTE:** Assuming that the request body exceeds the required parameters (3)
+
+`Body` -
+
+```json
+{
+  "name": "Macbook",
+  "description": "It just works.",
+  "price": 75000, 
+   "hehe": 1
+}
+```
+
+Response
+```json
+Product must not have additional attributes
+```
+
+#### 5. [V2] Delete Product by ID
+
+`DELETE` - http://localhost:8080/api/v2/product/1
+
+**NOTE:** Assuming that the Product with ID `1` does not exist
+
+```json
+Product not found
+```
