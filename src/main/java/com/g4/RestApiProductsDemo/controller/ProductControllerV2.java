@@ -2,6 +2,7 @@ package com.g4.RestApiProductsDemo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.exception.InvalidProductException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,8 @@ public class ProductControllerV2 {
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ObjectNode productNode) {
         validateProductNode(productNode);
-        ProductDTO productDTO = objectMapper.convertValue(productNode, ProductDTO.class);
-        ProductDTO createdProduct = productService.createProduct(productDTO);
+        CreateProductDTO createProductDTO = objectMapper.convertValue(productNode, CreateProductDTO.class);
+        ProductDTO createdProduct = productService.createProduct(createProductDTO);
         return ResponseEntity.ok(createdProduct);
     }
 

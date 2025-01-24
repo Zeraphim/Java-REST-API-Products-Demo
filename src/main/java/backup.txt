@@ -26,15 +26,22 @@ public class ProductService {
 
     // ProductDTO to Product entity
     // for creating product (with internalCode)
-    private Product mapToEntity(CreateProductDTO createProductDTO) {
-        return new Product(createProductDTO.getName(),
-                createProductDTO.getDescription(),
-                createProductDTO.getPrice(),
-                //iha-hash si internal code dapat
-                createProductDTO.getInternalCode());  // Store the internalCode
+    private Product mapToEntity(CreateProductDTO createProductDTO, String version, ProductDTO ) {
+        if (version == "new") {
+            return new Product(createProductDTO.getName(),
+                    createProductDTO.getDescription(),
+                    createProductDTO.getPrice(),
+                    //iha-hash si internal code dapat
+                    createProductDTO.getInternalCode());  // Store the internalCode
+        } else if (version == "old") {
+            return new Product(productDTO.getName(),
+                    productDTO.getDescription(),
+                    productDTO.getPrice(),
+                    null);
+        }
     }
 
-    private Product mapToEntity(ProductDTO productDTO) {
+    private ProductOld mapToEntity(ProductDTO productDTO) {
         return new Product(productDTO.getName(),
                 productDTO.getDescription(),
                 productDTO.getPrice(),
@@ -45,12 +52,18 @@ public class ProductService {
 
 
     // Create a new product
-    public ProductDTO createProduct(CreateProductDTO createProductDTO) {
+    public ProductDTO createProductDTO(CreateProductDTO createProductDTO) {
         Product product = mapToEntity(createProductDTO);
         Product savedProduct = productRepository.save(product);
         return mapToDTO(savedProduct);
     }
 
+    // FOR V2 Only
+    public ProductDTO createProduct(ProductDTO ProductDTO) {
+        Product product = mapToEntity(ProductDTO);
+        Product savedProduct = productRepository.save(product);
+        return mapToDTO(savedProduct);
+    }
 
     // Get all products
     public List<ProductDTO> getAllProduct() {
