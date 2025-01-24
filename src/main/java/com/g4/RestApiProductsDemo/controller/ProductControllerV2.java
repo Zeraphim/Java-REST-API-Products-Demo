@@ -1,3 +1,4 @@
+/*
 package com.g4.RestApiProductsDemo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,4 +53,4 @@ public class ProductControllerV2 {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-}
+}*/
