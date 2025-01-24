@@ -47,7 +47,8 @@ public class ProductControllerV2 {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO ProductDTO) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO ProductDTO, @RequestBody ObjectNode productNode) {
+        validateProductNode(productNode);
         ProductDTO updatedProduct = productService.updateProduct(id, ProductDTO);
         if (updatedProduct == null) {
             throw new ResourceNotFoundException("Product not found with id " + id);
@@ -67,6 +68,10 @@ public class ProductControllerV2 {
         }
         if (productNode.size() > 3) {
             throw new InvalidProductException("Product must not have additional attributes");
+        }
+        
+        if (productNode.size() < 3) {
+            throw new InvalidProductException("Request lacks the required parameters.");
         }
     }
 }
