@@ -50,4 +50,14 @@ public class ProductDTO {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public String printProductDetails() {
+        return "Product Details:\n" +
+                "----------------\n" +
+                "ID: " + id + "\n" +
+                "Name: " + name + "\n" +
+                "Description: " + description + "\n" +
+                "Price: $" + String.format("%.2f", price) + "\n" +
+                "----------------";
+    }
 }
