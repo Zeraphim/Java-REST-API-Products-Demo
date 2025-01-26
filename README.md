@@ -231,3 +231,50 @@ Product must not have additional attributes
 ```json
 Product not found
 ```
+
+### `V3` Endpoints
+- Implemented Asynchronous Requests
+
+#### 1. [V3] Synchronous Request Demo
+
+`GET` - http://localhost:8080/api/v3/product/sync
+
+**NOTE:** This will take 3 seconds to process.
+
+Response
+```
+Processes Completed
+```
+
+#### 2. [V3] Asynchronous Request - Single Response
+
+`GET` - http://localhost:8080/api/v3/product/asyncSingle
+
+Response
+```
+Process Completed
+```
+
+#### 3. [V3] Asynchronous Request - Event Response
+
+`GET` - http://localhost:8080/api/v3/product/asyncEvent
+
+Response (Started)
+```json
+{
+    "message": "Process started",
+    "threadName": "http-nio-8080-exec-1",
+    "threadId": 40
+}
+```
+
+Wait for 3 seconds then
+
+Response (Completed)
+```json
+{
+    "message": "Process completed",
+    "threadName": "http-nio-8080-exec-1",
+    "threadId": 40
+}
+```
