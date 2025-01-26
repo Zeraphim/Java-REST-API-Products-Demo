@@ -21,7 +21,7 @@ public class ProductWebClient {
     // Get all products
     public Mono<List<ProductDTO>> getAllProducts() {
         return webClient.get()
-                .uri("/")
+                .uri("")
                 .retrieve()
                 .bodyToFlux(ProductDTO.class)
                 .collectList(); // Returns a Mono containing a List of ProductDTO
@@ -36,10 +36,10 @@ public class ProductWebClient {
     }
 
     // Create a new product
-    public Mono<ProductDTO> createProduct(CreateProductDTO productDTO) {
+    public Mono<ProductDTO> createProduct(CreateProductDTO createProductDTO) {
         return webClient.post()
-                .uri("/")
-                .bodyValue(productDTO)
+                .uri("")
+                .bodyValue(createProductDTO)
                 .retrieve()
                 .bodyToMono(ProductDTO.class); // Returns a Mono containing the created ProductDTO
     }

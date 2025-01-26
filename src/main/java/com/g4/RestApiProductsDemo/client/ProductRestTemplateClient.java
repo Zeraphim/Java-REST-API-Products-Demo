@@ -37,8 +37,8 @@ public class ProductRestTemplateClient {
     }
 
     // Create a new product
-    public ProductDTO createProduct(CreateProductDTO productDTO) {
-        HttpEntity<CreateProductDTO> request = new HttpEntity<>(productDTO);
+    public ProductDTO createProduct(CreateProductDTO createProductDTO) {
+        HttpEntity<CreateProductDTO> request = new HttpEntity<>(createProductDTO);
         return restTemplate.postForObject(BASE_URL, request, ProductDTO.class);
     }
 
