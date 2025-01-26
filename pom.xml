@@ -84,6 +84,12 @@
 			<!-- <classifier>osx-x86_64</classifier> --> <!-- For Intel-based Macs -->
 			<scope>runtime</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
