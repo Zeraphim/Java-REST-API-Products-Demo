@@ -9,9 +9,42 @@ https://medium.com/@pratik.941/building-rest-api-using-spring-boot-a-comprehensi
 ## Setting up
 Create a new Spring Boot project using Spring Initializer. Add the following dependencies:
 
+#### Spring Boot
+
 https://start.spring.io/
 
 ![Springboot-Init](Assets/springboot-setup.png)
+
+#### Rabbit MQ (To be used by `V3` of the API)
+
+For **MacOS**
+
+```bash
+brew install rabbitmq
+```
+
+Check if it's properly installed
+```bash
+brew info rabbitmq
+```
+
+Start the RabbitMQ server
+```bash
+brew services start rabbitmq
+```
+
+Access the RabbitMQ Management Console
+
+<http://localhost:15672>
+
+**Username:** guest
+
+**Password:** guest
+
+Stop the RabbitMQ server
+```bash
+brew services stop rabbitmq
+```
 
 ## How to Use
 
