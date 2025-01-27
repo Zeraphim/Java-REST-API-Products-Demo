@@ -12,8 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product")
-public class ProductControllerV1 {
 
+public class ProductControllerV1 {
     @Autowired
     private ProductService productService;
 
@@ -23,30 +23,24 @@ public class ProductControllerV1 {
         List<ProductDTO> products = productService.getAllProduct();
         return ResponseEntity.ok(products);
     }
-
     // Get a product by ID
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         ProductDTO product = productService.getProductById(id);
         return ResponseEntity.ok(product);
     }
-
     // Create a new product
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody CreateProductDTO createProductDTO) {
-        // Accept internalCode as a query parameter or in the body if necessary
         ProductDTO createdProduct = productService.createProduct(createProductDTO);
         return ResponseEntity.ok(createdProduct);
     }
-
     // Update a product
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id,
-                                                    @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         ProductDTO updatedProduct = productService.updateProduct(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
-
     // Delete a product
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
@@ -54,3 +48,5 @@ public class ProductControllerV1 {
         return ResponseEntity.noContent().build();
     }
 }
+
+

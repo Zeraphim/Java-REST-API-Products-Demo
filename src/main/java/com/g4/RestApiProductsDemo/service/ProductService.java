@@ -11,46 +11,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
-
     @Autowired
     private ProductRepository productRepository;
 
-    // Product entity to ProductDTO
-    // for client viewing (no internalCode)
+    // Product Entity to ProductDTO (for client viewing/no internalCode)
     private ProductDTO mapToDTO(Product product) {
         return new ProductDTO(product.getId(),
                 product.getName(),
                 product.getDescription(),
                 product.getPrice());
     }
-
-    // ProductDTO to Product entity
-    // for creating product (with internalCode)
+    // ProductDTO to Product Entity (for creating product/with internalCode)
     private Product mapToEntity(CreateProductDTO createProductDTO) {
         return new Product(createProductDTO.getName(),
                 createProductDTO.getDescription(),
                 createProductDTO.getPrice(),
-                //iha-hash si internal code dapat
-                createProductDTO.getInternalCode());  // Store the internalCode
+                createProductDTO.getInternalCode());  // Store the internalCode in DB
     }
-
-    private Product mapToEntity(ProductDTO productDTO) {
-        return new Product(productDTO.getName(),
-                productDTO.getDescription(),
-                productDTO.getPrice(),
-                null);
-    }
-
-
-
-
-    // Create a new product
-    public ProductDTO createProduct(CreateProductDTO createProductDTO) {
-        Product product = mapToEntity(createProductDTO);
-        Product savedProduct = productRepository.save(product);
-        return mapToDTO(savedProduct);
-    }
-
 
     // Get all products
     public List<ProductDTO> getAllProduct() {
@@ -58,13 +35,17 @@ public class ProductService {
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
-
     // Get a single product by ID
     public ProductDTO getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
         return mapToDTO(product);
     }
-
+    // Create a new product
+    public ProductDTO createProduct(CreateProductDTO createProductDTO) {
+        Product product = mapToEntity(createProductDTO);
+        Product savedProduct = productRepository.save(product);
+        return mapToDTO(savedProduct);
+    }
     // Update a product
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         Product existingProduct = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
@@ -75,10 +56,17 @@ public class ProductService {
         Product updatedProduct = productRepository.save(existingProduct);
         return mapToDTO(updatedProduct);
     }
-
     // Delete a product
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
         productRepository.delete(product);
     }
 }
+
+/*
+private Product mapToEntity(ProductDTO productDTO) {
+    return new Product(productDTO.getName(),
+            productDTO.getDescription(),
+            productDTO.getPrice(),
+            null);
+}*/
