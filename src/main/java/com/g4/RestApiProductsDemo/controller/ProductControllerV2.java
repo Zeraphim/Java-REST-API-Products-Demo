@@ -101,7 +101,7 @@ public class ProductControllerV2 {
         response.put("status", statusCode);
         response.put("error", getErrorMessage(statusCode));
         response.put("message", products);
-        response.put("path", "/api/resource");
+        // response.put("path", "/api/resource");
         return response;
     }
 
