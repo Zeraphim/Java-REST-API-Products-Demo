@@ -31,8 +31,8 @@ public class MainRestTemplate {
 
             // 4. Update the product
             System.out.println("Updating the product...");
-            fetchedProduct.setPrice(399.99);
-            ProductDTO updatedProduct = productWebClient.updateProduct(fetchedProduct.getId(), fetchedProduct);
+            ProductDTO productDTO = new ProductDTO(fetchedProduct.getId(), fetchedProduct.getName(), fetchedProduct.getDescription(), 399.99);
+            ProductDTO updatedProduct = productWebClient.updateProduct(productDTO.getId(), productDTO);
             System.out.println("Updated Product: " + updatedProduct.printProductDetails());
 
             // 5. Delete the product
