@@ -12,7 +12,11 @@ import com.g4.RestApiProductsDemo.dto.ProductDTO;
 import com.g4.RestApiProductsDemo.exception.ResourceNotFoundException;
 import com.g4.RestApiProductsDemo.service.ProductService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v2/product")
@@ -26,9 +30,11 @@ public class ProductControllerV2 {
 
     // Get all products
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProduct() {
+    public ResponseEntity<Map<String, Object>> getAllProduct() {
         List<ProductDTO> products = productService.getAllProduct();
-        return ResponseEntity.ok(products);
+        int statusCode = determineStatusCode(products); // Method to determine status code
+        Map<String, Object> response = createResponse(statusCode, products);
+        return ResponseEntity.status(statusCode).body(response);
     }
 
     // Get a product by ID
@@ -66,6 +72,8 @@ public class ProductControllerV2 {
         return ResponseEntity.noContent().build();
     }
 
+    //////////////// Non-Mapping methods ////////////////
+
     private void validateProductNode(ObjectNode productNode) {
         if (!productNode.has("name") || !productNode.has("description") || !productNode.has("price")) {
             throw new InvalidProductException("Product must have name, description, and price");
@@ -76,6 +84,39 @@ public class ProductControllerV2 {
 
         if (productNode.size() < 3) {
             throw new InvalidProductException("Request lacks the required parameters.");
+        }
+    }
+
+    private int determineStatusCode(List<ProductDTO> products) {
+        if (products.isEmpty()) {
+            return 404; // Not Found
+        }
+        return 200; // OK
+    }
+
+    private Map<String, Object> createResponse(int statusCode, List<ProductDTO> products) {
+        Map<String, Object> response = new HashMap<>();
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+        response.put("timestamp", timestamp);
+        response.put("status", statusCode);
+        response.put("error", getErrorMessage(statusCode));
+        response.put("message", products);
+        response.put("path", "/api/resource");
+        return response;
+    }
+
+    // Function for returning the appropriate Status Codes
+    private String getErrorMessage(int statusCode) {
+        switch (statusCode) {
+            case 404:
+                return "Not Found";
+            case 200:
+                return "OK";
+
+            // TODO Add More
+
+            default:
+                return "Unknown Error";
         }
     }
 }
