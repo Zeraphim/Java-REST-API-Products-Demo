@@ -52,7 +52,6 @@ public class ProductService {
         existingProduct.setName(productDTO.getName());
         existingProduct.setDescription(productDTO.getDescription());
         existingProduct.setPrice(productDTO.getPrice());
-        // existingProduct.setInternalCode(internalCode); // Update internalCode if necessary
         Product updatedProduct = productRepository.save(existingProduct);
         return mapToDTO(updatedProduct);
     }
