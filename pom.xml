@@ -58,6 +58,7 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Spring Boot Starter WebFlux (for event-based asynchronous requests) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
@@ -83,11 +84,6 @@
 			<classifier>osx-aarch_64</classifier> <!-- For Apple Silicon (M1/M2) -->
 			<!-- <classifier>osx-x86_64</classifier> --> <!-- For Intel-based Macs -->
 			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
 		<!-- SECURITY / AUTH-->
