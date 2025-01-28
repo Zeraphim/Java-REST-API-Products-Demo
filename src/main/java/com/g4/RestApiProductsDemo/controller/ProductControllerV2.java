@@ -72,6 +72,19 @@ public class ProductControllerV2 {
         return ResponseEntity.noContent().build();
     }
 
+    /////////////////// Authenticated Endpoints START ///////////////////
+    @GetMapping("/secured")
+    public ResponseEntity<Map<String, Object>> getAllProductSecured() {
+        List<ProductDTO> products = productService.getAllProduct();
+        int statusCode = determineStatusCode(products); // Method to determine status code
+        Map<String, Object> response = createResponse(statusCode, products);
+        return ResponseEntity.status(statusCode).body(response);
+    }
+
+
+    /////////////////// Authenticated Endpoints END ///////////////////
+
+
     //////////////// Non-Mapping methods ////////////////
 
     private void validateProductNode(ObjectNode productNode) {
