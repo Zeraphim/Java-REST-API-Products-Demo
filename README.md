@@ -265,6 +265,47 @@ Product must not have additional attributes
 Product not found
 ```
 
+#### 6. [V2] Authenticated Endpoints (/secured)
+
+1. Creating an Auth user
+
+`POST` - <localhost:8080/authenticate>
+
+`Body` - x-www-form-urlencoded
+
+```
+username: user
+password: password
+```
+
+Copy the auth token from the response
+
+2. Get all songs
+
+`GET` - <localhost:8080/songs>
+
+`Authorization` - Bearer Token
+
+NOTE: Paste the auth token copied from the previous step
+
+Sample Response
+
+```json
+{
+   "error": "OK",
+   "message": [
+      {
+         "id": 1,
+         "name": "Alienware",
+         "description": "Gaming Laptop",
+         "price": 75000.0
+      }
+   ],
+   "timestamp": "2025-01-28T12:28:53.764316",
+   "status": 200
+}
+```
+
 ### `V3` Endpoints
 - Implemented Asynchronous Requests
 
