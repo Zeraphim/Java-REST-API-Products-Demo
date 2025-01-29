@@ -1,10 +1,13 @@
 package com.g4.RestApiProductsDemo.dto;
 
 public class ProductDTO {
-    private final Long id;
-    private final String name;
-    private final String description;
-    private final double price;
+    private  Long id;
+    private String name;
+    private  String description;
+    private double price;
+
+    //Required for JSON de/serialization
+    public ProductDTO(){}
 
     // Constructors
     public ProductDTO(Long id, String name, String description, double price) {

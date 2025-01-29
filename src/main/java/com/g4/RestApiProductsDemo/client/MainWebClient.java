@@ -15,7 +15,7 @@ public class MainWebClient {
         ProductWebClient productWebClient = new ProductWebClient(webClientBuilder);
 
         // Create a new product (non-blocking)
-        CreateProductDTO newProduct = new CreateProductDTO(null, "New Product", "New Description", 99.99, "Internal Code Sample WebClient");
+        CreateProductDTO newProduct = new CreateProductDTO("New Product", "New Description", 99.99, "Internal Code Sample WebClient");
         CompletableFuture<Void> createProduct = productWebClient.createProduct(newProduct)
                 .doOnNext(product -> System.out.println("Created Product: \n" + product.printProductDetails()))
                 .then()

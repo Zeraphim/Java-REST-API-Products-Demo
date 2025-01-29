@@ -16,7 +16,6 @@ public class MainWebClientFlatMap {
 
         // Define a new product to create
         CreateProductDTO newProduct = new CreateProductDTO(
-                null,
                 "New Product",
                 "New Description",
                 99.99,

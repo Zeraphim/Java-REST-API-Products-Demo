@@ -3,6 +3,7 @@ package com.g4.RestApiProductsDemo.client;
 import com.g4.RestApiProductsDemo.dto.ProductDTO;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainHttpURLConnection {
     public static void main(String[] args) throws IOException {
@@ -14,7 +15,10 @@ public class MainHttpURLConnection {
         System.out.println("Created Product: " + createdProduct.printProductDetails());  // Print created product
 
         System.out.println("\nFetching all products...");
-        client.getAllProducts();  // Print all products as part of the method call
+        // Fetch all products and print their details in Main
+        List<ProductDTO> products = client.getAllProducts();
+        products.forEach(product -> System.out.println(product.printProductDetails())); // Print details of each product
+
 
         System.out.println("\nFetching the created product by ID...");
         ProductDTO fetchedProduct = client.getProductById(1L);  // Print fetched product

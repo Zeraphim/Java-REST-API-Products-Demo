@@ -1,6 +1,7 @@
 package com.g4.RestApiProductsDemo.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.dto.ProductDTO;
 
 import java.io.*;
@@ -20,6 +21,7 @@ public class ProductHttpURLConnectionClient {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(method);
         connection.setRequestProperty("Content-Type", "application/json");
+
         connection.setDoOutput(true);
 
         if (jsonBody != null && !jsonBody.isEmpty()) {
@@ -70,23 +72,40 @@ public class ProductHttpURLConnectionClient {
 
     // Create a new product
     public ProductDTO createProduct(String name, String description, double price, String internalCode) throws IOException {
-        String jsonBody = String.format(
-                "{\"name\":\"%s\", \"description\":\"%s\", \"price\":%.2f, \"internalCode\":\"%s\"}",
-                name, description, price, internalCode
-        );
+        CreateProductDTO productDTO = new CreateProductDTO(name, description, price, internalCode);
+        String jsonBody = objectMapper.writeValueAsString(productDTO); // Convert DTO to JSON
         String response = sendHttpRequest(BASE_URL, "POST", jsonBody);
         return convertToProductDTO(response);
     }
 
     // Update an existing product
     public ProductDTO updateProduct(Long id, String name, String description, double price) throws IOException {
-        String jsonBody = String.format(
-                "{\"name\":\"%s\", \"description\":\"%s\", \"price\":%.2f}",
-                name, description, price
-        );
+        ProductDTO productDTO = new ProductDTO(id, name, description, price);
+        String jsonBody = objectMapper.writeValueAsString(productDTO); // Convert DTO to JSON
         String response = sendHttpRequest(BASE_URL + "/" + id, "PUT", jsonBody);
         return convertToProductDTO(response);
     }
+
+
+    // Create a new product
+//    public ProductDTO createProduct(String name, String description, double price, String internalCode) throws IOException {
+//        String jsonBody = String.format(
+//                "{\"name\":\"%s\", \"description\":\"%s\", \"price\":%.2f, \"internalCode\":\"%s\"}",
+//                name, description, price, internalCode
+//        );
+//        String response = sendHttpRequest(BASE_URL, "POST", jsonBody);
+//        return convertToProductDTO(response);
+//    }
+
+    // Update an existing product
+//    public ProductDTO updateProduct(Long id, String name, String description, double price) throws IOException {
+//        String jsonBody = String.format(
+//                "{\"name\":\"%s\", \"description\":\"%s\", \"price\":%.2f}",
+//                name, description, price
+//        );
+//        String response = sendHttpRequest(BASE_URL + "/" + id, "PUT", jsonBody);
+//        return convertToProductDTO(response);
+//    }
 
     // Delete a product
     public String deleteProduct(Long id) throws IOException {

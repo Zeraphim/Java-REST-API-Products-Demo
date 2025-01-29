@@ -20,7 +20,7 @@ public class MainRestTemplate {
 
             // Create a new product
             System.out.println("Creating a new product...");
-            CreateProductDTO newProduct = new CreateProductDTO(null, "New Product", "This is a demo product created via RestTemplate.", 299.99, "Internal Code Sample RestTemplate");
+            CreateProductDTO newProduct = new CreateProductDTO("New Product", "This is a demo product created via RestTemplate.", 299.99, "Internal Code Sample RestTemplate");
             ProductDTO createdProduct = productWebClient.createProduct(newProduct);
             System.out.println("Created Product: " + createdProduct.printProductDetails());
 
