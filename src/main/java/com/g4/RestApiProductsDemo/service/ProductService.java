@@ -4,6 +4,7 @@ import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.dto.ProductDTO;
 import com.g4.RestApiProductsDemo.entity.Product;
 import com.g4.RestApiProductsDemo.repository.ProductRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,8 +12,28 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
-    @Autowired
+    @Autowired // Field injection
     private ProductRepository productRepository;
+
+/*
+    private ProductRepository productRepository;
+    @Autowired //Setter injection
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+    private final ProductRepository productRepository;
+    @Autowired // Constructor injection
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+*/
+
+    /*@PostConstruct
+    public void init() {
+        if (productRepository == null) {
+            throw new IllegalStateException("ProductRepository is not injected!");
+        }
+    }*/
 
     // Product Entity to ProductDTO (for client viewing/no internalCode)
     private ProductDTO mapToDTO(Product product) {
@@ -68,4 +89,11 @@ private Product mapToEntity(ProductDTO productDTO) {
             productDTO.getDescription(),
             productDTO.getPrice(),
             null);
+}*/
+
+/*@PostConstruct
+public void init() {
+    if (productRepository == null) {
+        throw new IllegalStateException("ProductRepository is not injected!");
+    }
 }*/

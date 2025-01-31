@@ -69,11 +69,22 @@ brew services stop rabbitmq
     - **Inserting a product** - `INSERT INTO PRODUCT (ID, NAME, DESCRIPTION, PRICE) VALUES (2, 'Alinenware', 'Gaming Laptop', 75000)`
 
 4. H2 SQL
-   INSERT INTO PRODUCT (id, name, description, price)
-   VALUES
-   (1, 'Macbook Pro', 'For soydevs', 100000.0),
-   (2, 'Alienware', 'Gaming Laptop', 75000.0);
 
+INSERT INTO PRODUCT ("NAME", "DESCRIPTION", "PRICE", "INTERNAL_CODE")
+VALUES
+('macbook', 'this is my macbook', 1, 'secret'),
+('android', 'this is my android', 2, 'hehe');
+
+UPDATE PRODUCT
+SET
+NAME = 'UPDATED macbook',
+DESCRIPTION = 'this is my UPDATED macbook',
+PRICE = 2000,
+INTERNAL_CODE = 'UPDATED secret'
+WHERE ID = 1;
+
+DELETE FROM PRODUCT
+WHERE ID = 1;
 
 ## Endpoints
 
