@@ -82,9 +82,6 @@ public class ProductControllerV4 {
     }
 
 
-    /////////////////// Authenticated Endpoints END ///////////////////
-
-
     //////////////// Non-Mapping methods ////////////////
 
     private void validateProductNode(ObjectNode productNode) {
