@@ -27,23 +27,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String token = getTokenFromRequest(request);
+        String requestURI = request.getRequestURI();
+        if (requestURI.startsWith("/api/v3/product/secured/")) {
+            String token = getTokenFromRequest(request);
 
-        if (token != null && jwtUtil.validateToken(token)) {
-            String username = jwtUtil.extractUsername(token);
+            if (token != null && jwtUtil.validateToken(token)) {
+                String username = jwtUtil.extractUsername(token);
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(request, response);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("status", "client error");
+                errorResponse.put("message", "Make sure you have the right credentials");
+                errorResponse.put("error", "Unauthorized access");
+                errorResponse.put("statusCode", HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+            }
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "client error");
-            errorResponse.put("message", "Make sure you have the right credentials");
-            errorResponse.put("error", "Unauthorized access");
-            errorResponse.put("statusCode", HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+            filterChain.doFilter(request, response);
         }
     }
 
