@@ -67,9 +67,9 @@ public class ProductControllerV4 {
 
     // Delete a product by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Map<String, Object>> deleteProduct(@PathVariable Long id) {
+        Map<String, Object> response = productService.deleteProduct(id);
+        return ResponseEntity.ok(response);
     }
 
     /////////////////// Authenticated Endpoints START ///////////////////
