@@ -3,6 +3,10 @@ package com.g4.RestApiProductsDemo.service;
 import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.dto.ProductDTO;
 import com.g4.RestApiProductsDemo.entity.Product;
+import com.g4.RestApiProductsDemo.exception.ProductDeletionException;
+import com.g4.RestApiProductsDemo.exception.ProductNotFoundException;
+import com.g4.RestApiProductsDemo.exception.ProductUpdateException;
+import com.g4.RestApiProductsDemo.exception.ResourceNotFoundException;
 import com.g4.RestApiProductsDemo.repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +62,7 @@ public class ProductService {
     }
     // Get a single product by ID
     public ProductDTO getProductById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found"));
         return mapToDTO(product);
     }
     // Create a new product
@@ -69,7 +73,7 @@ public class ProductService {
     }
     // Update a product
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
-        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new ProductUpdateException("Product not found"));
         existingProduct.setName(productDTO.getName());
         existingProduct.setDescription(productDTO.getDescription());
         existingProduct.setPrice(productDTO.getPrice());
@@ -78,7 +82,7 @@ public class ProductService {
     }
     // Delete a product
     public void deleteProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductDeletionException("Product not found"));
         productRepository.delete(product);
     }
 }
