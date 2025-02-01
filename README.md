@@ -6,6 +6,16 @@ Before committing `git pull`
 **Reference Article:** <br>
 https://medium.com/@pratik.941/building-rest-api-using-spring-boot-a-comprehensive-guide-3e9b6d7a8951
 
+## Overview
+This is a simple REST API project that demonstrates the basic CRUD operations for a Product entity. The project is divided into different versions to demonstrate the evolution of the API.
+
+### Versions
+
+1. **V1** - Simple REST API, No Exception handling and Asynchronous processing.
+2. **V2** - Implemented Exception handling (Using `@ExceptionHandler` only)
+3. **V3** - Implemented Exception handling (Using `@RestControllerAdvice` with a GlobalExceptionHandler class)
+4. **V4** - Implemented Asynchronous Requests
+
 ## Setting up
 Create a new Spring Boot project using Spring Initializer. Add the following dependencies:
 
