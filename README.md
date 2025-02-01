@@ -291,9 +291,9 @@ password: password
 
 Copy the auth token from the response
 
-2. Get all songs
+2. Secured endpoint
 
-`GET` - <localhost:8080/songs>
+`GET` - <http://localhost:8080/api/v3/product/secured>
 
 `Authorization` - Bearer Token
 
