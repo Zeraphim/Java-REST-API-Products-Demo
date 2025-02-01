@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
-        if (requestURI.startsWith("/api/v3/product/secured/")) {
+        if (requestURI.startsWith("/api/v3/product/secured")) {
             String token = getTokenFromRequest(request);
 
             if (token != null && jwtUtil.validateToken(token)) {
