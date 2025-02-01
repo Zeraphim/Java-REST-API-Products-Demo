@@ -80,10 +80,10 @@ public class ProductControllerV3 {
 
     // Delete a product
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> deleteProduct(@PathVariable Long id) {
         try {
-            productService.deleteProduct(id);
-            return ResponseEntity.noContent().build();
+            Map<String, Object> response = productService.deleteProduct(id);
+            return ResponseEntity.status(200).body(response);
         } catch (ProductDeletionException ex) {
             throw new ProductDeletionException("Product not found");
         }
