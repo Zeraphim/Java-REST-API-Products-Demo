@@ -27,7 +27,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/authenticate").permitAll()
-                        .requestMatchers("/api/v4/product/secured/**").authenticated()
+                        .requestMatchers("/api/v3/product/secured/**").authenticated()
                         .anyRequest().permitAll() // Allow all other requests without authentication
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);

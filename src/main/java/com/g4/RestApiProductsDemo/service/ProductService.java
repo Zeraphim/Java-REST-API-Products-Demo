@@ -56,21 +56,28 @@ public class ProductService {
 
     // Get all products
     public List<ProductDTO> getAllProduct() {
-        return productRepository.findAll().stream()
+        List<Product> products = productRepository.findAll();
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("No products found");
+        }
+        return products.stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
+
     // Get a single product by ID
     public ProductDTO getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found"));
         return mapToDTO(product);
     }
+
     // Create a new product
     public ProductDTO createProduct(CreateProductDTO createProductDTO) {
         Product product = mapToEntity(createProductDTO);
         Product savedProduct = productRepository.save(product);
         return mapToDTO(savedProduct);
     }
+
     // Update a product
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         Product existingProduct = productRepository.findById(id).orElseThrow(() -> new ProductUpdateException("Product not found"));
@@ -80,6 +87,7 @@ public class ProductService {
         Product updatedProduct = productRepository.save(existingProduct);
         return mapToDTO(updatedProduct);
     }
+
     // Delete a product
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new ProductDeletionException("Product not found"));
