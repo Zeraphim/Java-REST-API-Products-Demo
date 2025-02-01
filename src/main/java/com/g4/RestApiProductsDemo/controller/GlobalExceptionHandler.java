@@ -14,7 +14,7 @@ assignableTypes - Applies only these exception handling to the specified control
 
  */
 
-@RestControllerAdvice(assignableTypes = ProductControllerV2.class)
+@RestControllerAdvice(assignableTypes = ProductControllerV4.class)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
