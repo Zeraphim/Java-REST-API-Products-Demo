@@ -1,9 +1,22 @@
 package com.g4.RestApiProductsDemo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+// JsonIgnoreProperties - This annotation is used to either suppress serialization of properties (during serialization),
+// or ignore processing of JSON properties read (during deserialization).
+// @JsonIgnoreProperties(ignoreUnknown = false)
 public class CreateProductDTO {
+
+    // @NotBlank(message = "Name is mandatory")
     private final String name;
+    // @NotBlank(message = "Description is mandatory")
     private final String description;
+    // @NotNull(message = "Price is mandatory")
     private final double price;
+    // @NotBlank(message = "Internal code is mandatory")
     private final String internalCode;
 
     // Constructors
