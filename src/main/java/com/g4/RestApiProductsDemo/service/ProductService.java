@@ -11,7 +11,10 @@ import com.g4.RestApiProductsDemo.repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,9 +92,17 @@ public class ProductService {
     }
 
     // Delete a product
-    public void deleteProduct(Long id) {
+    public Map<String, Object> deleteProduct(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new ProductDeletionException("Product not found"));
         productRepository.delete(product);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Product deleted successfully");
+        Map<String, Object> deletedProduct = new HashMap<>();
+        deletedProduct.put("id", product.getId());
+        deletedProduct.put("name", product.getName());
+        deletedProduct.put("price", product.getPrice());
+        response.put("deletedProduct", deletedProduct);
+        return response;
     }
 }
 
