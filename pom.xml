@@ -145,6 +145,13 @@
 			<version>2.23.1</version>
 		</dependency>
 
+		<!-- Error Page - Thymeleaf-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.exception.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.g4.RestApiProductsDemo.dto.ProductDTO;
 import com.g4.RestApiProductsDemo.service.ProductService;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.io.IOException;
 import java.nio.file.FileSystemException;
@@ -124,6 +126,16 @@ public class ProductControllerV3 {
     @GetMapping("/trigger-generic-exception")
     public void triggerGenericException() throws Exception {
         throw new Exception("Simulated generic exception");
+    }
+
+    @RequestMapping("/**")
+    public void unmatchedEndpoint() throws BadRequestException {
+        throw new BadRequestException("Nonexistent endpoint.");
+    }
+
+    @RequestMapping("/*")
+    public void unmatchedEndpointTwo() throws BadRequestException {
+        throw new BadRequestException("Nonexistent endpoint.");
     }
 
     //////////////////// VALIDATE Request Body ////////////////////
