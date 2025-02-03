@@ -11,10 +11,10 @@ This is a simple REST API project that demonstrates the basic CRUD operations fo
 
 ### Versions
 
-1. **V1** - Simple REST API, No Exception handling and Asynchronous processing.
-2. **V2** - Implemented Exception handling (Controller-based only using `@ExceptionHandler`, Plaintext response)
-3. **V3** - Implemented Exception handling (Using `@RestControllerAdvice` with a GlobalExceptionHandler class, Custom error message in JSON, Logging)
-4. **V4** - Implemented Asynchronous Requests
+- **V1** - Simple REST API, No Exception handling and Asynchronous processing.
+- **V2** - Implemented Exception handling (Controller-based only using `@ExceptionHandler`, Plaintext response)
+- **V3** - Implemented Exception handling (Using `@RestControllerAdvice` with a GlobalExceptionHandler class, Custom error message in JSON, Logging)
+- **V4** - Implemented Asynchronous Requests
 
 ## Setting up
 Create a new Spring Boot project using Spring Initializer. Add the following dependencies:
