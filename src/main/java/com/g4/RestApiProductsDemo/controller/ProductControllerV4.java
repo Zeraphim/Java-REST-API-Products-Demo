@@ -5,18 +5,20 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.exception.InvalidProductException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.g4.RestApiProductsDemo.dto.ProductDTO;
 import com.g4.RestApiProductsDemo.exception.ResourceNotFoundException;
 import com.g4.RestApiProductsDemo.service.ProductService;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/api/v4/product")
@@ -28,13 +30,75 @@ public class ProductControllerV4 {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
+
+    ///////////// Synchronous and Asynchronous Demo START /////////////
+
+    @GetMapping("/sync")
+    public String syncDemo() throws InterruptedException {
+        Thread.sleep(3000); // Wait for 3 seconds
+        return "Process Completed";
+    }
+
+    // Async returning a single response
+    // Best used for long-running tasks that require single result once the task is completed.
+    @GetMapping("/asyncSingle")
+    public CompletableFuture<String> asyncDemo() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000); // Wait for 3 seconds
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            return "Process Completed";
+        }, executorService);
+    }
+
+    // Async returning multiple event responses to client (Webflux)
+    // Ideal for scenarios where you need to provide real-time updates to the client about the progress of a long-running task.
+    @GetMapping(value = "/asyncEvent", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter asyncDemoTwo() {
+        SseEmitter emitter = new SseEmitter();
+
+        ProcessStatus initialStatus = new ProcessStatus(
+                "Process started",
+                Thread.currentThread().getName(),
+                Thread.currentThread().getId()
+        );
+
+        try {
+            emitter.send(initialStatus);
+        } catch (IOException e) {
+            emitter.completeWithError(e);
+            return emitter;
+        }
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(3000); // Wait for 3 seconds
+                ProcessStatus completedStatus = new ProcessStatus(
+                        "Process completed",
+                        Thread.currentThread().getName(),
+                        Thread.currentThread().getId()
+                );
+                emitter.send(completedStatus);
+            } catch (InterruptedException | IOException e) {
+                Thread.currentThread().interrupt();
+                emitter.completeWithError(e);
+            }
+            emitter.complete();
+        }, executorService);
+
+        return emitter;
+    }
+
+    ///////////// Synchronous and Asynchronous Demo END /////////////
+
     // Get all products
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getAllProduct() {
+    public ResponseEntity<List<ProductDTO>> getAllProduct() {
         List<ProductDTO> products = productService.getAllProduct();
-        int statusCode = determineStatusCode(products); // Method to determine status code
-        Map<String, Object> response = createResponse(statusCode, products);
-        return ResponseEntity.status(statusCode).body(response);
+        return ResponseEntity.ok(products);
     }
 
     // Get a product by ID
@@ -67,22 +131,10 @@ public class ProductControllerV4 {
 
     // Delete a product by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deleteProduct(@PathVariable Long id) {
-        Map<String, Object> response = productService.deleteProduct(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
-
-    /////////////////// Authenticated Endpoints START ///////////////////
-    @GetMapping("/secured")
-    public ResponseEntity<Map<String, Object>> getAllProductSecured() {
-        List<ProductDTO> products = productService.getAllProduct();
-        int statusCode = determineStatusCode(products); // Method to determine status code
-        Map<String, Object> response = createResponse(statusCode, products);
-        return ResponseEntity.status(statusCode).body(response);
-    }
-
-
-    //////////////// Non-Mapping methods ////////////////
 
     private void validateProductNode(ObjectNode productNode) {
         if (!productNode.has("name") || !productNode.has("description") || !productNode.has("price")) {
@@ -94,39 +146,6 @@ public class ProductControllerV4 {
 
         if (productNode.size() < 3) {
             throw new InvalidProductException("Request lacks the required parameters.");
-        }
-    }
-
-    private int determineStatusCode(List<ProductDTO> products) {
-        if (products.isEmpty()) {
-            return 404; // Not Found
-        }
-        return 200; // OK
-    }
-
-    private Map<String, Object> createResponse(int statusCode, List<ProductDTO> products) {
-        Map<String, Object> response = new HashMap<>();
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
-        response.put("timestamp", timestamp);
-        response.put("status", statusCode);
-        response.put("error", getErrorMessage(statusCode));
-        response.put("message", products);
-        // response.put("path", "/api/resource");
-        return response;
-    }
-
-    // Function for returning the appropriate Status Codes
-    private String getErrorMessage(int statusCode) {
-        switch (statusCode) {
-            case 404:
-                return "Not Found";
-            case 200:
-                return "OK";
-
-            // TODO Add More
-
-            default:
-                return "Unknown Error";
         }
     }
 }

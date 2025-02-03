@@ -2,6 +2,8 @@ package com.g4.RestApiProductsDemo.controller;
 
 import com.g4.RestApiProductsDemo.exception.*;
 import org.apache.coyote.BadRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,8 +19,14 @@ import java.rmi.RemoteException;
 @RestControllerAdvice(assignableTypes = ProductControllerV3.class)
 public class GlobalExceptionHandler {
 
+    // Logger
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CustomErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+        // Logger
+        logger.error("Resource Not Found Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "client error", // status
                 ex.getMessage(), // message
@@ -29,6 +37,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<CustomErrorResponse> handleIOException(IOException ex, WebRequest request) {
+        // Logger
+        logger.error("I/O Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "server error", // status
                 "An I/O error occurred: " + ex.getMessage(), // message
@@ -39,6 +50,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FileSystemException.class)
     public ResponseEntity<CustomErrorResponse> handleFileSystemException(FileSystemException ex, WebRequest request) {
+        // Logger
+        logger.error("File System Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "server error", // status
                 "A file system error occurred: " + ex.getMessage(), // message
@@ -49,6 +63,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RemoteException.class)
     public ResponseEntity<CustomErrorResponse> handleRemoteException(RemoteException ex, WebRequest request) {
+        // Logger
+        logger.error("Remote Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "server error", // status
                 "A remote error occurred: " + ex.getMessage(), // message
@@ -59,7 +76,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorResponse> handleGenericException(Exception ex, WebRequest request) {
+        // Logger
+        logger.error("Generic Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
+
                 "server error", // status
                 "An unexpected error occurred: " + ex.getMessage(), // message
                 HttpStatus.INTERNAL_SERVER_ERROR.value() // status code
@@ -69,6 +90,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<CustomErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
+        // Logger
+        logger.error("Bad Request Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "client error", // status
                 "Bad request: " + ex.getMessage(), // message
@@ -81,6 +105,9 @@ public class GlobalExceptionHandler {
     // Custom Exceptions
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<CustomErrorResponse> handleProductNotFoundException(ProductNotFoundException ex, WebRequest request) {
+        // Logger
+        logger.error("Product Not Found Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "client error", // status
                 ex.getMessage(), // message
@@ -92,6 +119,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductUpdateException.class)
     public ResponseEntity<CustomErrorResponse> handleProductUpdateException(ProductUpdateException ex, WebRequest request) {
+        // Logger
+        logger.error("Product Update Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "client error", // status
                 ex.getMessage(), // message
@@ -103,6 +133,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductDeletionException.class)
     public ResponseEntity<CustomErrorResponse> handleProductDeletionException(ProductDeletionException ex, WebRequest request) {
+        // Logger
+        logger.error("Product Deletion Exception: {}", ex.getMessage());
+
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 "client error", // status
                 ex.getMessage(), // message
