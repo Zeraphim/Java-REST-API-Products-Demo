@@ -28,8 +28,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/authenticate").permitAll()
                         .requestMatchers("/api/v3/product/secured/**").authenticated()
+                        .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 console
                         .anyRequest().permitAll() // Allow all other requests without authentication
                 )
+                .headers(headers -> headers.frameOptions().sameOrigin()) // Allow H2 console to be displayed in a frame
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
