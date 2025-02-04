@@ -2,6 +2,7 @@ package com.g4.RestApiProductsDemo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.g4.RestApiProductsDemo.controller.Async.AsyncService;
 import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.exception.InvalidProductException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,15 +36,41 @@ public class ProductControllerV4 {
 
     ///////////// Synchronous and Asynchronous Demo START /////////////
 
+    // Beginner
     @GetMapping("/sync")
     public String syncDemo() throws InterruptedException {
         Thread.sleep(3000); // Wait for 3 seconds
         return "Process Completed";
     }
 
+    // Novice
+    @GetMapping("/async-novice")
+    public String asyncEndpoint() throws InterruptedException {
+        AsyncService.asyncMethod();
+        return "Request is being processed asynchronously";
+    }
+
+    // Adept
+    @GetMapping("/async-adept")
+    public ResponseEntity<List<ProductDTO>> getAllProducts() throws InterruptedException {
+        Random random = new Random();
+        int sleepTime = 3000 + random.nextInt(7001); // Generates a random number between 3000 and 10000
+
+        Thread.sleep(sleepTime);
+
+        List<ProductDTO> products = productService.getAllProduct();
+        return ResponseEntity.ok(products);
+    }
+
+    // Advanced
+
+    // code here
+
+
+
     // Async returning a single response
     // Best used for long-running tasks that require single result once the task is completed.
-    @GetMapping("/asyncSingle")
+    @GetMapping("/asyncBasic")
     public CompletableFuture<String> asyncDemo() {
         return CompletableFuture.supplyAsync(() -> {
             try {

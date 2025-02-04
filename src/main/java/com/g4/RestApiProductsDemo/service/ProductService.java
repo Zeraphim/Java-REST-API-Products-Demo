@@ -1,5 +1,6 @@
 package com.g4.RestApiProductsDemo.service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.dto.ProductDTO;
 import com.g4.RestApiProductsDemo.entity.Product;
@@ -9,6 +10,7 @@ import com.g4.RestApiProductsDemo.exception.ProductUpdateException;
 import com.g4.RestApiProductsDemo.exception.ResourceNotFoundException;
 import com.g4.RestApiProductsDemo.repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +85,8 @@ public class ProductService {
 
     // Update a product
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
-        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new ProductUpdateException("Product not found"));
+        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found with id " + id));
+
         existingProduct.setName(productDTO.getName());
         existingProduct.setDescription(productDTO.getDescription());
         existingProduct.setPrice(productDTO.getPrice());

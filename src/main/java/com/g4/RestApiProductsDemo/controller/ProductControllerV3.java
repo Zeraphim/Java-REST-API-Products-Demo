@@ -145,7 +145,6 @@ public class ProductControllerV3 {
     }
 
     //////////////////// VALIDATE Request Body ////////////////////
-
     private void validateProductNode(ObjectNode productNode) throws BadRequestException {
         if (!productNode.has("name") || !productNode.has("description") || !productNode.has("price")) {
             throw new BadRequestException("Product must have name, description, and price");
@@ -172,4 +171,5 @@ public class ProductControllerV3 {
             throw new BadRequestException("Price cannot be zero");
         }
     }
+
 }

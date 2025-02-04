@@ -5,6 +5,7 @@ import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.exception.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.coyote.BadRequestException;
+import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -76,6 +77,8 @@ public class ProductControllerV2 {
             return ResponseEntity.status(HttpStatus.CREATED).body(updatedProduct);
         } catch (ProductUpdateException ex) {
             throw new ProductUpdateException("Product update failed");
+        } catch (ProductNotFoundException ex) {
+            throw new ResourceNotFoundException("Product not found");
         }
     }
 
