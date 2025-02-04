@@ -37,9 +37,13 @@ public class ProductControllerV2 {
 
     // Get all products
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProduct() {
-        List<ProductDTO> products = productService.getAllProduct();
-        return ResponseEntity.ok(products);
+    public ResponseEntity<List<ProductDTO>> getAllProduct() throws BadRequestException {
+        try {
+            List<ProductDTO> products = productService.getAllProduct();
+            return ResponseEntity.ok(products);
+        } catch (Error ex) {
+            throw new BadRequestException("Method Unsupported");
+        }
     }
 
     // Get a product by ID
@@ -190,6 +194,6 @@ public class ProductControllerV2 {
 
     @ExceptionHandler(ProductDeletionException.class)
     public ResponseEntity<String> handleProductDeletionException(ProductDeletionException ex, WebRequest request) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

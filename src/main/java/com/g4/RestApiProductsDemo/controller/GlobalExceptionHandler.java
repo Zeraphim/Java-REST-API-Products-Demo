@@ -124,8 +124,8 @@ public class GlobalExceptionHandler {
             return customExceptionResolver.resolveException(request, response, null, ex);
         } else {
             logger.error("Product Deletion Exception: {}", ex.getMessage());
-            CustomErrorResponse errorResponse = new CustomErrorResponse("client error", ex.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            CustomErrorResponse errorResponse = new CustomErrorResponse("client error", ex.getMessage(), HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
     }
 
