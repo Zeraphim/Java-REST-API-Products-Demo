@@ -39,11 +39,25 @@ public class ProductControllerV4 {
     @Autowired
     private RabbitMQProducer rabbitMQProducer;
 
+    @Autowired
+    private AsyncService asyncService;
+
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     ///////////// Synchronous and Asynchronous Demo START /////////////
 
     // Beginner
+
+    /*
+
+    Server thread handling the request will sleep for 3 seconds (blocking the thread)
+    and preventing it from handling other requests during this time.
+
+    If multiple requests were made to this endpoint each request will block a server
+    thread for 3 seconds leading to thread exhaustion under high load.
+
+     */
+
     @GetMapping("/sync")
     public String syncDemo() throws InterruptedException {
         Thread.sleep(3000); // Wait for 3 seconds
@@ -51,9 +65,17 @@ public class ProductControllerV4 {
     }
 
     // Novice
+
+    /*
+
+    Returns immediately and processes the request in a separate thread,
+    allowing the server thread to handle other requests.
+
+     */
+
     @GetMapping("/async-novice")
     public String asyncEndpoint() throws InterruptedException {
-        AsyncService.asyncMethod();
+        asyncService.asyncMethod();
         return "Request is being processed asynchronously";
     }
 
