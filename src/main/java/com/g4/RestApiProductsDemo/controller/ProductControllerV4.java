@@ -2,9 +2,11 @@ package com.g4.RestApiProductsDemo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.g4.RestApiProductsDemo.RabbitConfig.RabbitMQConfig;
 import com.g4.RestApiProductsDemo.controller.Async.AsyncService;
 import com.g4.RestApiProductsDemo.dto.CreateProductDTO;
 import com.g4.RestApiProductsDemo.exception.InvalidProductException;
+import com.g4.RestApiProductsDemo.repository.RabbitMQProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,10 @@ import com.g4.RestApiProductsDemo.dto.ProductDTO;
 import com.g4.RestApiProductsDemo.exception.ResourceNotFoundException;
 import com.g4.RestApiProductsDemo.service.ProductService;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -32,11 +36,28 @@ public class ProductControllerV4 {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private RabbitMQProducer rabbitMQProducer;
+
+    @Autowired
+    private AsyncService asyncService;
+
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     ///////////// Synchronous and Asynchronous Demo START /////////////
 
     // Beginner
+
+    /*
+
+    Server thread handling the request will sleep for 3 seconds (blocking the thread)
+    and preventing it from handling other requests during this time.
+
+    If multiple requests were made to this endpoint each request will block a server
+    thread for 3 seconds leading to thread exhaustion under high load.
+
+     */
+
     @GetMapping("/sync")
     public String syncDemo() throws InterruptedException {
         Thread.sleep(3000); // Wait for 3 seconds
@@ -44,29 +65,38 @@ public class ProductControllerV4 {
     }
 
     // Novice
+
+    /*
+
+    Returns immediately and processes the request in a separate thread,
+    allowing the server thread to handle other requests.
+
+     */
+
     @GetMapping("/async-novice")
     public String asyncEndpoint() throws InterruptedException {
-        AsyncService.asyncMethod();
+        asyncService.asyncMethod();
         return "Request is being processed asynchronously";
     }
 
     // Adept
     @GetMapping("/async-adept")
-    public ResponseEntity<List<ProductDTO>> getAllProducts() throws InterruptedException {
+    public Mono<ResponseEntity<List<ProductDTO>>> getAllProducts() {
         Random random = new Random();
-        int sleepTime = 3000 + random.nextInt(7001); // Generates a random number between 3000 and 10000
+        int sleepTime = 1000 + random.nextInt(3000); // Generates a random number
 
-        Thread.sleep(sleepTime);
-
-        List<ProductDTO> products = productService.getAllProduct();
-        return ResponseEntity.ok(products);
+        return Mono.delay(Duration.ofMillis(sleepTime))
+                .flatMap(delay -> Mono.fromCallable(() -> productService.getAllProduct()))
+                .map(products -> ResponseEntity.ok(products));
     }
 
     // Advanced
-
-    // code here
-
-
+    @GetMapping("/async-advanced")
+    public ResponseEntity<String> asyncAdvanced() {
+        String message = "Process this message in the background";
+        rabbitMQProducer.sendMessage(RabbitMQConfig.QUEUE_NAME, message);
+        return ResponseEntity.ok("Request received. Processing in the background.");
+    }
 
     // Async returning a single response
     // Best used for long-running tasks that require single result once the task is completed.
