@@ -128,6 +128,12 @@ public class ProductControllerV3 {
         throw new Exception("Simulated generic exception");
     }
 
+    // Trigger Problem Detail
+    @GetMapping("/problem-detail")
+    public void triggerProblemDetail() throws ProblemDetailExceptionDemo {
+        throw new ProblemDetailExceptionDemo("Problem Detail Exception.");
+    }
+
     @RequestMapping("/**")
     public void unmatchedEndpoint() throws BadRequestException {
         throw new BadRequestException("Nonexistent endpoint.");

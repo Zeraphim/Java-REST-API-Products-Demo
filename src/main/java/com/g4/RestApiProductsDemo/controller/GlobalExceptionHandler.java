@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ public class GlobalExceptionHandler {
     @Autowired
     private CustomExceptionResolver customExceptionResolver;
 
+    // Returning HTML custom error pages
     private boolean isBrowserRequest(HttpServletRequest request) {
         String acceptHeader = request.getHeader("Accept");
         return acceptHeader != null && acceptHeader.contains(MediaType.TEXT_HTML_VALUE);
@@ -135,5 +137,16 @@ public class GlobalExceptionHandler {
             logger.error("No Handler Found Exception: {}", ex.getMessage());
             throw new BadRequestException("Invalid endpoint");
         }
+    }
+
+
+    // Problem Detail Demo
+    @ExceptionHandler(ProblemDetailExceptionDemo.class)
+    public ProblemDetail handleIllegalArgument(ProblemDetailExceptionDemo ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problem.setTitle("Invalid Request");
+        problem.setDetail(ex.getMessage());
+        problem.setProperty("timestamp", java.time.LocalDateTime.now().toString());
+        return problem;
     }
 }

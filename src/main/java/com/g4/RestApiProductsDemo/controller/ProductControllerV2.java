@@ -143,6 +143,10 @@ public class ProductControllerV2 {
 
     //////////////////// EXCEPTION HANDLING ////////////////////
 
+    // @ExceptionHandler implies that this exception specifically handles exceptions of the type BadRequestException.
+    // If you leave it blank, Spring will now determine which exception this method handles based on its method parameters. In this case, still BadRequestException.
+
+    // Response entity - represents the entire HTTP response (status code, headers, body), allows you to return an object or just a string.
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<String> handleBadRequestException(BadRequestException ex, WebRequest request) {
         return new ResponseEntity<>("Bad request: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
