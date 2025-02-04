@@ -24,7 +24,7 @@ public class CreateProductDTO {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.internalCode = internalCode;
+        this.internalCode = internalCode; //hashing / mask sensitive data
     }
 
     // Getters and Setters
