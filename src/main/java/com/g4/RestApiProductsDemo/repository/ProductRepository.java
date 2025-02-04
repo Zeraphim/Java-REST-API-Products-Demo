@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     // Preventing SQL Injection
     @Query("SELECT s FROM Product s WHERE s.name = :name")
-    Optional<Product> findByName(@Param("name") String name);
+    Product findByName(@Param("name") String name);
 
 
 }
