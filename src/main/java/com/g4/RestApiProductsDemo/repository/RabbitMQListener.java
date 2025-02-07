@@ -24,14 +24,14 @@ public class RabbitMQListener implements ChannelAwareMessageListener {
         System.out.println("Received message: " + messageBody);
 
         // Wait for a random time between 3000 ms to 10000 ms
-        Random random = new Random();
-        int sleepTime = 3000 + random.nextInt(7001); // Generates a random number between 3000 and 10000
-
-        try {
-            Thread.sleep(sleepTime);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+//        Random random = new Random();
+//        int sleepTime = 3000 + random.nextInt(7001); // Generates a random number between 3000 and 10000
+//
+//        try {
+//            Thread.sleep(sleepTime);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
 
         // Upload the message back to RabbitMQ
         rabbitTemplate.convertAndSend(RabbitMQConfig.QUEUE_NAME, messageBody);
